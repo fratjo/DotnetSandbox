@@ -1,9 +1,5 @@
-﻿using Application.Commands.Users;
+﻿using Application.Abstractions.Mediator;
 using Application.Commands.Users.PatchUser;
-using Application.Common.Mediator;
-using Application.DTOs.UserDto;
-using Domain.Common;
-using Domain.Entities;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +22,7 @@ public class UpdateUserEndpoint(IMediator mediator) : Endpoint<UpdateUserRequest
         AllowAnonymous();
         Summary(s =>
         {
-            s.Summary = "Update User's username";
+            s.Summary = "Update Users's username";
             s.Params["UserId"] = "user id";
         });
     }

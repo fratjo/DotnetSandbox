@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Users.Entities;
 
 namespace Infrastructure.Contexts;
 

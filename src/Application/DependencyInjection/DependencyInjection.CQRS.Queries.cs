@@ -1,10 +1,10 @@
-﻿using Application.Common.Mediator;
-using Application.DTOs.UserDto;
-using Application.Queries.Users.GetUser;
-using Application.Queries.Users.GetUsers;
-using Domain.Common;
-using Domain.Entities;
+﻿using Application.Abstractions.Mediator;
+using Domain.Shared;
 using Microsoft.Extensions.DependencyInjection;
+using Domain.Users.Entities;
+using Application.Users.Queries.GetUser;
+using Application.Users.Queries.GetUsers;
+using Domain.Common;
 
 namespace Application.DependencyInjection;
 
@@ -12,8 +12,8 @@ public static partial class DependencyInjection
 {
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
-        services.AddScoped<IQueryHandler<GetUserQuery, UserDto>, GetUserQueryHandler>();
-        services.AddScoped<IQueryHandler<GetUsersQuery, List<UserDto>>, GetUsersQueryHandler>();
+        services.AddScoped<IQueryHandler<GetUserQuery, Option<User>>, GetUserQueryHandler>();
+        services.AddScoped<IQueryHandler<GetUsersQuery, List<User>>, GetUsersQueryHandler>();
 
         return services;
     }

@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Repositories;
+﻿using Domain.Abstractions;
 using Infrastructure.Contexts;
 
 namespace Infrastructure.Repositories;

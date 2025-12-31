@@ -1,6 +1,5 @@
-﻿using Application.Common.Mediator;
-using Application.DTOs.UserDto;
-using Application.Queries.Users.GetUser;
+﻿using Application.Abstractions.Mediator;
+using Application.Users.Queries.GetUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +13,9 @@ public class GetUserRequest
 
 public class GetUserResponse
 {
-    public UserDto user { get; set; } = null!;
+    public Guid Id { get; set; }
+    public string Username { get; set; } = null!;
+    public int Age { get; set; }
 }
 
 public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetUserResponse>
@@ -28,13 +29,12 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
     {
         var command = new GetUserQuery(request.UserId);
         var user = await mediator.SendAsync(command, ct);
-        if (user is not null)
-        {
-            await Send.OkAsync( new GetUserResponse { user = user});
-        }
+        if (user.IsSome)
+            await Send.OkAsync( new GetUserResponse { 
+                Id = user.Value.Id, 
+                Username = user.Value.Username, 
+                Age = user.Value.Age});
         else
-        {
             await Send.ResultAsync(TypedResults.Problem("Failed to create user."));
-        }
     }
 }
