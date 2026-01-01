@@ -1,17 +1,18 @@
 ﻿using Application.Abstractions.Mediator;
-using Domain.Shared;
+using Domain.Common;
 using Domain.Abstractions;
 using Domain.Users.Repositories;
+using Domain.Users.Errors;
 
 namespace Application.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, Result>
+public class UpdateUserCommandHandler(IUserWriteRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, Result>
 {
     public async Task<Result> HandleAsync(UpdateUserCommand command, CancellationToken cancellationToken = default)
     {
-        var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
+        var user = await userRepository.LoadByIdAsync(command.UserId, cancellationToken);
         if (user is null)
-            return Result.NotFound("Users not found.");
+            return Result.Failure(UserErrors.UserNotFound);
         
         if (command.Username is not null)
         {
@@ -30,6 +31,6 @@ public class UpdateUserCommandHandler(IUserRepository userRepository, IUnitOfWor
         await userRepository.UpdateAsync(user, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success("Username updated successfully.");
+        return Result.Success();
     }
 }

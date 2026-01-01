@@ -22,7 +22,7 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
 {
     public override void Configure()
     {
-        Get("api/users/{UserId}");
+        Get("api/users/{UserId:Guid}");
         AllowAnonymous();
     }
     public override async Task HandleAsync(GetUserRequest request, CancellationToken ct)
@@ -30,11 +30,13 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
         var command = new GetUserQuery(request.UserId);
         var user = await mediator.SendAsync(command, ct);
         if (user.IsSome)
-            await Send.OkAsync( new GetUserResponse { 
-                Id = user.Value.Id, 
-                Username = user.Value.Username, 
-                Age = user.Value.Age});
+            await Send.OkAsync(new GetUserResponse
+            {
+                Id = user.Value.Id,
+                Username = user.Value.Username,
+                Age = user.Value.Age
+            });
         else
-            await Send.ResultAsync(TypedResults.Problem("Failed to create user."));
+            await Send.NotFoundAsync();
     }
 }

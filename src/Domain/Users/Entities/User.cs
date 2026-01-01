@@ -1,4 +1,5 @@
-using Domain.Shared;
+using Domain.Common;
+using Domain.Users.Errors;
 
 namespace Domain.Users.Entities;
 
@@ -12,46 +13,65 @@ public class User
 
     public int Age { get; private set; } = 0;
 
+    private User(string username, int age) 
+    {
+        Username = username.ToUpperInvariant();
+        _usernameLastUpdated = DateTime.UtcNow;
+        Age = age;
+    }
+
     public static Result<User> Create(string username, int age)
     {
-        Result result;
-        var user = new User();
-        result = user.UpdateUsername(username);
-        if (!result.IsSuccess)
-            return Result<User>.Failure(result.Message);
-        result = user.UpdateAge(age);
-        if (!result.IsSuccess)
-            return Result<User>.Failure(result.Message);
-        return Result<User>.Success(user);
+        var errors = new List<DomainError>();
+
+        var now = DateTime.UtcNow;
+
+        errors.AddRange(ValidateUsername(username, null, now));
+        errors.AddRange(ValidateAge(age));
+
+        if (errors.Any())
+            return Result<User>.Failure(errors.ToArray());
+
+        return Result<User>.Success(new User (username, age));
     }
 
     public Result UpdateUsername(string newUsername)
     {
-        if (string.IsNullOrWhiteSpace(newUsername))
-            return Result.Failure("Username cannot be null or empty.");
+        var now = DateTime.UtcNow;
+        var errors = ValidateUsername(newUsername, _usernameLastUpdated, now);
 
-        if (_usernameLastUpdated != default && (DateTime.UtcNow - _usernameLastUpdated).TotalDays < 30)
-            return Result.Failure("Username can only be changed once every 30 days.");
+        if (errors.Any())
+            return Result.Failure(errors.ToArray());
 
         Username = newUsername.ToUpperInvariant();
         _usernameLastUpdated = DateTime.UtcNow;
 
-        return Result.Success("Username updated successfully.");
+        return Result.Success();
     }
 
     public Result UpdateAge(int newAge)
     {
-        var validationResult = ValidateAge(newAge);
-        if (!validationResult.IsSuccess)
-            return validationResult;
+        var errors = ValidateAge(newAge);
+
+        if (errors.Any())
+            return Result.Failure(errors.ToArray());
+
         Age = newAge;
-        return Result.Success("Age updated successfully.");
+        
+        return Result.Success();
     }
 
-    private static Result ValidateAge(int age)
+    private static IEnumerable<DomainError> ValidateUsername(string username, DateTime? lastUpdated, DateTime now)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            yield return UserErrors.UsernameCannotBeEmpty;
+        if (lastUpdated.HasValue && (now - lastUpdated.Value).TotalDays < 30)
+            yield return UserErrors.UsernameChangeTooFrequent;
+    }
+
+    private static IEnumerable<DomainError> ValidateAge(int age)
     {
         if (age < 18 || age > 100)
-            return Result.Failure("Age must be between 18 and 100.");
-        return Result.Success();
+            yield return UserErrors.AgeMustBeBetween18And100;
     }
 }

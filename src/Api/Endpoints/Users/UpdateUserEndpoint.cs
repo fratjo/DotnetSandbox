@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Mediator;
-using Application.Commands.Users.PatchUser;
+using Application.Users.Commands.UpdateUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +10,7 @@ public class UpdateUserRequest
     [FromRoute]
     public Guid UserId { get; set; } = Guid.Empty;
     public string? Username { get; set; }
-    public int? Age { get; set; } 
+    public int? Age { get; set; }
 }
 
 public class UpdateUserEndpoint(IMediator mediator) : Endpoint<UpdateUserRequest>
@@ -28,15 +28,30 @@ public class UpdateUserEndpoint(IMediator mediator) : Endpoint<UpdateUserRequest
     }
     public override async Task HandleAsync(UpdateUserRequest request, CancellationToken ct)
     {
-        var command = new UpdateUserCommand(request.UserId, request.Username, request.Age);
+        var command = new UpdateUserCommand(
+            request.UserId,
+            request.Username,
+            request.Age);
+
         var result = await mediator.SendAsync(command, ct);
+
         if (result.IsSuccess)
-        {
             await Send.OkAsync();
-        }
         else
         {
-            await Send.ResultAsync(TypedResults.Problem(result.Message ?? "Failed to create user."));
+            var problemDetails = new ValidationProblemDetails(
+                result.Errors
+                    .GroupBy(e => e.Code.Value)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.Message).ToArray())
+            )
+            {
+                Title = "One or more validation errors occurred.",
+                Status = StatusCodes.Status400BadRequest,
+            };
+
+            await Send.ResultAsync(TypedResults.Problem(problemDetails));
         }
     }
 }

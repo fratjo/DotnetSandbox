@@ -2,6 +2,8 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using Application.DependencyInjection;
 using Infrastructure.DependencyInjection;
+using Infrastructure.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddSwaggerDocument();
 builder.Services.AddApplicationCQRS();
 builder.Services.AddMediator();
 builder.Services.AddRepositories();
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDb"));
 
 var app = builder.Build();
 

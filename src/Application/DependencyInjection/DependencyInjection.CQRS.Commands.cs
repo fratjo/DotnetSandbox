@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Mediator;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
-using Domain.Shared;
+using Domain.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.DependencyInjection;

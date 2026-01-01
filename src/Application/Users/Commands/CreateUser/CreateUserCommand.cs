@@ -1,5 +1,5 @@
 using Application.Abstractions.Mediator;
-using Domain.Shared;
+using Domain.Common;
 
 namespace Application.Users.Commands.CreateUser;
 

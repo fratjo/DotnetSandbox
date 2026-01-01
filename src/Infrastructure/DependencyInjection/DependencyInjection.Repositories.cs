@@ -1,4 +1,5 @@
-﻿using Domain.Abstractions;
+﻿using Application.Users.ReadStores;
+using Domain.Abstractions;
 using Domain.Users.Repositories;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories;
@@ -12,9 +13,12 @@ public static partial class DependencyInjection
     {
         // Register your repositories here
         services
-            .AddSingleton<CacheContext>()
             .AddScoped<IUnitOfWork, UnitOfWork>()
-            .AddScoped<IUserRepository, UserRepository>();
+            .AddScoped<IUserWriteRepository, UserWriteRepository>();
+
+        // Register Read Stores
+        services
+            .AddScoped<IUserReadStore, UserReadStore>();
 
         return services;
     }

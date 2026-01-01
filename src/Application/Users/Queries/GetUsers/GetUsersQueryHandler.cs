@@ -1,15 +1,22 @@
 ﻿using Application.Abstractions.Mediator;
-using Domain.Shared;
+using Application.Users.ReadModels;
+using Application.Users.ReadStores;
+using Domain.Common;
 using Domain.Users.Entities;
 using Domain.Users.Repositories;
 
 namespace Application.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler(IUserRepository userRepository) : IQueryHandler<GetUsersQuery, List<User>>
+public class GetUsersQueryHandler(IUserReadStore store) : IQueryHandler<GetUsersQuery, List<UserListItemReadModel>>
 {
-    public async Task<List<User>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
+    public async Task<List<UserListItemReadModel>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
     {
-        var users = await userRepository.GetAllAsync(cancellationToken);
-        return [.. users];
+        var rows = await store.GetAllAsync(cancellationToken);
+        
+        return rows.Select(user => new UserListItemReadModel
+        {
+            Id = user.Id,
+            Username = user.Username
+        }).ToList();
     }
 }

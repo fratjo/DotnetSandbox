@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Mediator;
 using Application.Users.Commands.CreateUser;
 using FastEndpoints;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Users;
 
@@ -32,14 +33,28 @@ public class CreateUserEndpoint(IMediator mediator) : Endpoint<CreateUserRequest
     public override async Task HandleAsync(CreateUserRequest request, CancellationToken ct)
     {
         var command = new CreateUserCommand(
-            request.Username, 
+            request.Username,
             request.Age);
-        
+
         var result = await mediator.SendAsync(command, ct);
-        
+
         if (result.IsSuccess)
             await Send.OkAsync(new CreateUserResponse { UserId = result.Value });
         else
-            await Send.ResultAsync(TypedResults.Problem(result.Message ?? "Failed to create user.", null, (int)result.ErrorType));
+        {
+            var problemDetails = new ValidationProblemDetails(
+                result.Errors
+                    .GroupBy(e => e.Code.Value)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.Message).ToArray())
+            )
+            {
+                Title = "One or more validation errors occurred.",
+                Status = StatusCodes.Status400BadRequest,
+            };
+
+            await Send.ResultAsync(TypedResults.Problem(problemDetails));
+        }
     }
 }
