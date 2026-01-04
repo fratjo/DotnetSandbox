@@ -1,4 +1,4 @@
-﻿namespace Domain.Common;
+﻿namespace Application.Common;
 
 public readonly struct Option<T>
 {

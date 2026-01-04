@@ -1,6 +1,6 @@
-﻿using Application.Users.ReadModels;
+﻿using Application.Common;
+using Application.Users.ReadModels;
 using Application.Users.ReadStores;
-using Domain.Common;
 using Mediator;
 
 namespace Application.Users.Queries.GetUser;
@@ -9,13 +9,8 @@ public sealed class GetUserQueryHandler(IUserReadStore store) : IQueryHandler<Ge
 {
     public async Task<Option<UserReadModel>> HandleAsync(GetUserQuery query, CancellationToken cancellationToken = default)
     {
-        var row = await store.GetByIdAsync(query.UserId, cancellationToken);
+        var userReadModel = await store.GetByIdAsync(query.UserId, cancellationToken);
 
-        return row is null ? Option<UserReadModel>.None() : Option<UserReadModel>.Some(new UserReadModel
-        {
-            Id = row.Id,
-            Username = row.Username,
-            Age = row.Age
-        });
+        return userReadModel is null ? Option<UserReadModel>.None() : Option<UserReadModel>.Some(userReadModel);
     }
 }

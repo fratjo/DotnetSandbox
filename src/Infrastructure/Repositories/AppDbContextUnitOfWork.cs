@@ -3,7 +3,7 @@ using Infrastructure.Contexts;
 
 namespace Infrastructure.Repositories;
 
-public class UnitOfWork(AppDbContext context) : IUnitOfWork
+public class AppDbContextUnitOfWork(AppDbContext context) : IUnitOfWork
 {
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default) 
         => await context.SaveChangesAsync(cancellationToken);

@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands.CreateUser;
+﻿using Application.Common;
+using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.GetUsers;
@@ -17,7 +18,7 @@ public static partial class DependencyInjection
         services.AddScoped<ICommandHandler<UpdateUserCommand, Result>, UpdateUserCommandHandler>();
 
         services.AddScoped<IQueryHandler<GetUserQuery, Option<UserReadModel>>, GetUserQueryHandler>();
-        services.AddScoped<IQueryHandler<GetUsersQuery, List<UserListItemReadModel>>, GetUsersQueryHandler>();
+        services.AddScoped<IQueryHandler<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>, GetUsersQueryHandler>();
 
         return services;
     }

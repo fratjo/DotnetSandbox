@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands.CreateUser;
+﻿using Application.Common;
+using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.GetUsers;
@@ -17,6 +18,6 @@ public static partial class MediatorModules
         mediator.RegisterCommandFrom<UpdateUserCommand, Result>(sp);
 
         mediator.RegisterQueryFrom<GetUserQuery, Option<UserReadModel>>(sp);
-        mediator.RegisterQueryFrom<GetUsersQuery, List<UserListItemReadModel>>(sp);
+        mediator.RegisterQueryFrom<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>(sp);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Application.Users.ReadModels;
-using Domain.Common;
+using Application.Common;
 using Mediator;
 
 namespace Application.Users.Queries.GetUser;

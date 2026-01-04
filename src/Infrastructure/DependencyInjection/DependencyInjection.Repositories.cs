@@ -12,7 +12,9 @@ public static partial class DependencyInjection
     {
         // Register your repositories here
         services
-            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddScoped<IUnitOfWork, AppDbContextUnitOfWork>();
+
+        services
             .AddScoped<IUserWriteRepository, UserWriteRepository>();
 
         // Register Read Stores

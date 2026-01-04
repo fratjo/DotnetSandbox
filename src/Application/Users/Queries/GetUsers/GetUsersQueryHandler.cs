@@ -4,16 +4,12 @@ using Mediator;
 
 namespace Application.Users.Queries.GetUsers;
 
-public sealed class GetUsersQueryHandler(IUserReadStore store) : IQueryHandler<GetUsersQuery, List<UserListItemReadModel>>
+public sealed class GetUsersQueryHandler(IUserReadStore store) : IQueryHandler<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>
 {
-    public async Task<List<UserListItemReadModel>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<UserListItemReadModel>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
     {
-        var rows = await store.GetAllAsync(cancellationToken);
-        
-        return rows.Select(user => new UserListItemReadModel
-        {
-            Id = user.Id,
-            Username = user.Username
-        }).ToList();
+        var userReadItemList = await store.GetAllAsync(cancellationToken);
+
+        return userReadItemList;
     }
 }
