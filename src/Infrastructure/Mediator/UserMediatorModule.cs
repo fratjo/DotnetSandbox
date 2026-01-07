@@ -17,7 +17,7 @@ public static partial class MediatorModules
         mediator.RegisterCommandFrom<CreateUserCommand, Result<Guid>>(sp);
         mediator.RegisterCommandFrom<UpdateUserCommand, Result>(sp);
 
-        mediator.RegisterQueryFrom<GetUserQuery, Option<UserReadModel>>(sp);
+        mediator.RegisterQueryFrom<GetUserQuery, Maybe<UserReadModel>>(sp);
         mediator.RegisterQueryFrom<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>(sp);
     }
 }

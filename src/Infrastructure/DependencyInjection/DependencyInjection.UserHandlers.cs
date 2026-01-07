@@ -17,7 +17,7 @@ public static partial class DependencyInjection
         services.AddScoped<ICommandHandler<CreateUserCommand, Result<Guid>>, CreateUserCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateUserCommand, Result>, UpdateUserCommandHandler>();
 
-        services.AddScoped<IQueryHandler<GetUserQuery, Option<UserReadModel>>, GetUserQueryHandler>();
+        services.AddScoped<IQueryHandler<GetUserQuery, Maybe<UserReadModel>>, GetUserQueryHandler>();
         services.AddScoped<IQueryHandler<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>, GetUsersQueryHandler>();
 
         return services;

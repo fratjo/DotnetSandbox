@@ -2,6 +2,8 @@
 using Application.Users.Queries.GetUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Application.Common;
+using Application.Users.ReadModels;
 
 namespace Api.Endpoints.Users;
 
@@ -29,12 +31,12 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
     {
         var query = new GetUserQuery(request.UserId);
         var user = await mediator.AskAsync(query, ct);
-        if (user.IsSome)
+        if (user is Some<UserReadModel> u)
             await Send.OkAsync(new GetUserResponse
             {
-                Id = user.Value.Id,
-                Username = user.Value.Username,
-                Age = user.Value.Age
+                Id = u.Value.Id,
+                Username = u.Value.Username,
+                Age = u.Value.Age
             });
         else
             await Send.NotFoundAsync();
