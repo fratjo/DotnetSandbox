@@ -1,6 +1,8 @@
-﻿using Mediator;
 using Application.Users.Queries.GetUsers;
+
 using FastEndpoints;
+
+using Mediator;
 
 namespace Api.Endpoints.Users;
 
@@ -27,8 +29,9 @@ public class GetUsersEndpoint(IMediator mediator) : EndpointWithoutRequest<GetUs
     {
         var query = new GetUsersQuery();
         var user = await mediator.AskAsync(query, ct);
-        
-        await Send.OkAsync( new GetUsersResponse {
+
+        await Send.OkAsync(new GetUsersResponse
+        {
             users = user.Select(u => new GetUserListItemResponse
             {
                 Id = u.Id,

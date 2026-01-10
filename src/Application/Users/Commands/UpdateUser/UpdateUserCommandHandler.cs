@@ -1,7 +1,10 @@
-﻿using Application.Users.Errors;
+using Application.Users.Errors;
+
 using Domain.Abstractions;
 using Domain.Users.Repositories;
+
 using Mediator;
+
 using Shared;
 
 namespace Application.Users.Commands.UpdateUser;

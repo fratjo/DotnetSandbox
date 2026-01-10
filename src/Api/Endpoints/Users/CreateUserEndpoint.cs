@@ -1,6 +1,9 @@
-﻿using Mediator;
 using Application.Users.Commands.CreateUser;
+
 using FastEndpoints;
+
+using Mediator;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Users;

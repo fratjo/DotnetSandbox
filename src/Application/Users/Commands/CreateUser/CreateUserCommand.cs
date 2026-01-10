@@ -1,4 +1,5 @@
 using Mediator;
+
 using Shared;
 
 namespace Application.Users.Commands.CreateUser;

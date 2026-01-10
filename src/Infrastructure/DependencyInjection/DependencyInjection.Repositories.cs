@@ -1,7 +1,10 @@
-﻿using Application.Users.ReadStores;
+using Application.Users.ReadStores;
+
 using Domain.Abstractions;
 using Domain.Users.Repositories;
+
 using Infrastructure.Repositories;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.DependencyInjection;

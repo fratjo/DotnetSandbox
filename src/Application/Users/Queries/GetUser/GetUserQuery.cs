@@ -1,5 +1,7 @@
-﻿using Application.Users.ReadModels;
+using Application.Users.ReadModels;
+
 using Mediator;
+
 using Shared;
 
 namespace Application.Users.Queries.GetUser;

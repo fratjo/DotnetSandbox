@@ -1,9 +1,13 @@
-﻿using Mediator;
 using Application.Users.Queries.GetUser;
-using FastEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using Domain.Common;
 using Application.Users.ReadModels;
+
+using Domain.Common;
+
+using FastEndpoints;
+
+using Mediator;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Users;
 

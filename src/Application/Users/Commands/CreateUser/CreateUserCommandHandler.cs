@@ -1,8 +1,10 @@
-﻿using Domain.Abstractions;
+using Domain.Abstractions;
 using Domain.Users.Entities;
 using Domain.Users.Errors;
 using Domain.Users.Repositories;
+
 using Mediator;
+
 using Shared;
 
 namespace Application.Users.Commands.CreateUser;
@@ -20,7 +22,7 @@ public sealed class CreateUserCommandHandler(IUserWriteRepository userRepository
             return Result<Guid>.Failure(result.Errors);
 
         await userRepository.AddAsync(result.Value!, cancellationToken);
-        
+
         try
         {
             await unitOfWork.SaveChangesAsync(cancellationToken);

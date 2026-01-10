@@ -1,7 +1,9 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
+
 using Infrastructure.Contexts;
 using Infrastructure.DependencyInjection;
+
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

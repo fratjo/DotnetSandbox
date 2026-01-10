@@ -1,6 +1,8 @@
-﻿using Application.Users.ReadModels;
+using Application.Users.ReadModels;
 using Application.Users.ReadStores;
+
 using Infrastructure.Contexts;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;

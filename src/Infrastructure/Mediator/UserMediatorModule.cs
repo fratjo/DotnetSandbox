@@ -1,9 +1,11 @@
-﻿using Application.Users.Commands.CreateUser;
+using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.GetUsers;
 using Application.Users.ReadModels;
+
 using Mediator;
+
 using Shared;
 
 namespace Infrastructure.Mediator;

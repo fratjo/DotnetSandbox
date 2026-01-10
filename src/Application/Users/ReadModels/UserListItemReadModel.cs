@@ -1,4 +1,4 @@
-﻿namespace Application.Users.ReadModels;
+namespace Application.Users.ReadModels;
 
 public sealed class UserListItemReadModel
 {

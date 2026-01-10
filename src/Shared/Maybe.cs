@@ -1,4 +1,4 @@
-﻿namespace Shared;
+namespace Shared;
 
 public abstract record Maybe<T>
 {
@@ -17,7 +17,7 @@ public sealed record Some<T> : Maybe<T>
 
 public sealed record None<T> : Maybe<T>
 {
-    internal static readonly None<T> Instance = new None<T>();
+    internal static readonly None<T> Instance = new();
     private None() { }
     public override TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none)
         => none();

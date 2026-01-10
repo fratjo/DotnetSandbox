@@ -15,10 +15,10 @@ public class User
     private DateTime UsernameLastUpdated { get; set; } = default;
 
     public int Age { get; private set; } = 0;
-    #endregion  
+    #endregion
 
     #region Constructor
-    private User(string username, int age, DateTime createdAt) 
+    private User(string username, int age, DateTime createdAt)
     {
         Username = username.ToUpperInvariant();
         UsernameLastUpdated = createdAt;

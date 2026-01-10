@@ -1,8 +1,8 @@
-﻿namespace Shared;
+namespace Shared;
 
 public abstract record ResultBase
 {
-    public IReadOnlyList<Error> Errors { get; init; } = Array.Empty<Error>();
+    public IReadOnlyList<Error> Errors { get; init; } = [];
     public bool IsSuccess => Errors.Count == 0;
     public bool IsFailure => !IsSuccess;
 }
@@ -10,7 +10,8 @@ public abstract record ResultBase
 public record Result : ResultBase
 {
     public static Result Success() => new();
-    public static Result Failure(params Error[] errors) => new Result { Errors = errors };
+    public static Result Failure(params Error[] errors)
+        => new() { Errors = errors };
 }
 public record Result<T> : ResultBase
 {
@@ -23,7 +24,7 @@ public record Result<T> : ResultBase
         => new() { Errors = errors };
 
     public static Result<T> Failure(IEnumerable<Error> errors)
-        => new() { Errors = errors.ToArray() };
+        => new() { Errors = [.. errors] };
 
     public Result ToResult()
     {

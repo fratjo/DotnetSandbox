@@ -1,8 +1,8 @@
-﻿namespace Mediator;
+namespace Mediator;
 
 public class ConcreteMediator : IMediator
 {
-    private readonly Dictionary<Type, Object> _handlers = new Dictionary<Type, object>();
+    private readonly Dictionary<Type, Object> _handlers = [];
 
 
     public void Register<TCommand, TResponse>(ICommandHandler<TCommand, TResponse> handler) where TCommand : ICommand<TResponse>
