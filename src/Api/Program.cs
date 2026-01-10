@@ -17,8 +17,7 @@ builder.Services.AddFastEndpoints();
 builder.Services.AddSwaggerDocument();
 builder.Services.AddUserHandlers();
 builder.Services.AddMediator();
-builder.Services.AddRepositories();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDb"), ServiceLifetime.Scoped);
+builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 

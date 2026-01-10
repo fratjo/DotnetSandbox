@@ -42,7 +42,7 @@ public class CreateUserEndpoint(IMediator mediator) : Endpoint<CreateUserRequest
         var result = await mediator.SendAsync(command, ct);
 
         if (result.IsSuccess)
-            await Send.OkAsync(new CreateUserResponse { UserId = result.Value });
+            await Send.CreatedAtAsync($"api/users/{result.Value}", new CreateUserResponse { UserId = result.Value });
         else
         {
             var problemDetails = new ValidationProblemDetails(
@@ -54,7 +54,7 @@ public class CreateUserEndpoint(IMediator mediator) : Endpoint<CreateUserRequest
             )
             {
                 Title = "One or more validation errors occurred.",
-                Status = StatusCodes.Status400BadRequest,
+                Status = StatusCodes.Status409Conflict,
             };
 
             await Send.ResultAsync(TypedResults.Problem(problemDetails));
