@@ -2,6 +2,9 @@
 # .NET / ASP.NET Core
 # =========================
 
+# claude
+.claude/
+
 # Build results
 [Bb]in/
 [Oo]bj/
