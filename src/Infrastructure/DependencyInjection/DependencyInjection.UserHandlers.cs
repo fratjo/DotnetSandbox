@@ -16,9 +16,11 @@ public static partial class DependencyInjection
 {
     public static IServiceCollection AddUserHandlers(this IServiceCollection services)
     {
+        // Commands
         services.AddScoped<ICommandHandler<CreateUserCommand, Result<Guid>>, CreateUserCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateUserCommand, Result>, UpdateUserCommandHandler>();
 
+        // Queries
         services.AddScoped<IQueryHandler<GetUserQuery, Maybe<UserReadModel>>, GetUserQueryHandler>();
         services.AddScoped<IQueryHandler<GetUsersQuery, IReadOnlyList<UserListItemReadModel>>, GetUsersQueryHandler>();
 

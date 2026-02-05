@@ -18,6 +18,7 @@ public class User
     #endregion
 
     #region Constructor
+    private User() { } // for EF Core
     private User(string username, int age, DateTime createdAt)
     {
         Username = username.ToUpperInvariant();

@@ -42,7 +42,7 @@ public class CreateUserEndpoint(IMediator mediator) : Endpoint<CreateUserRequest
         var result = await mediator.SendAsync(command, ct);
 
         if (result.IsSuccess)
-            await Send.CreatedAtAsync($"api/users/{result.Value}", new CreateUserResponse { UserId = result.Value });
+            await Send.CreatedAtAsync("CreateUser", $"api/users/{result.Value}", new CreateUserResponse { UserId = result.Value });
         else
         {
             var problemDetails = new ValidationProblemDetails(
